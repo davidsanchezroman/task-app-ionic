@@ -63,7 +63,7 @@ export class SignUpPage implements OnInit {
 
         this.utilsSvc.presentToast({
           message: `Registro exitoso ${user.name}`,
-          duration: 1500,
+          duration: 2000,
           color: 'primary',
           icon: 'person-outline'
         })
