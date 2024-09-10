@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { CanActivateFn } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { UtilsService } from '../services/utils.service';
 import { map, Observable } from 'rxjs';
@@ -29,4 +28,6 @@ export class AuthGuard implements CanActivate {
       }
       }))     
          
+}
+
 }
