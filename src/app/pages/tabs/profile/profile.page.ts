@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -14,7 +14,7 @@ export class ProfilePage implements OnInit {
 
   constructor(
     private firebasSvc: FirebaseService,
-    private utilsSvc: UtilsService
+    @Inject(UtilsService) private utilsSvc: UtilsService
   ) { }
 
   ngOnInit() {

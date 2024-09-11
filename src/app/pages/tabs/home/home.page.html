@@ -6,6 +6,11 @@
 
   <div class="content">
 
+    <ion-button (click)="addOrUpdateTask ()" class="ion-margin" mode="ios">
+      Nueva tarea
+      <ion-icon  slot="end" name="add-circle-outline"></ion-icon>
+    </ion-button>
+
 
   <ion-grid fixed>
     <ion-row>
@@ -17,7 +22,7 @@
           <ion-row>
             <ion-col class="ion-text-center" size-lg="5" size-md="5" size-sm="4" size="12">
               <circle-progress
-                [percent]="85"
+                [percent]="getPercentage (task)"
                 [radius]="65"
                 [outerStrokeWidth]="6"
                 [innerStrokeWidth]="4"
@@ -27,6 +32,7 @@
                 [titleColor]="'var(--ion-color-primary)'"
                 [unitsColor]="'var(--ion-color-primary)'"
                 [animationDuration]="300"
+                [subtitle]="'Progreso'"
               ></circle-progress></ion-col>
 
 
@@ -37,12 +43,13 @@
 
               <div class="ion-text-center">
 
-                <ion-button mode="ios" size="small">
+                <ion-button (click)="addOrUpdateTask(task)" class="task-btn" mode="ios" size="small">
                   Ver tarea
-                  <ion-icon  slot="end" name="eye-outline"></ion-icon>
+                  <ion-icon slot="end" name="eye-outline"></ion-icon>
                 </ion-button>
+                
 
-                <ion-button mode="ios" color="danger" size="small">
+                <ion-button class="task-btn" mode="ios" color="danger" size="small">
                   Eliminar tarea
                   <ion-icon  slot="end" name="trash-outline"></ion-icon>
                 </ion-button>

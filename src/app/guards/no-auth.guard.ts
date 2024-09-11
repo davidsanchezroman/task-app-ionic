@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { UtilsService } from '../services/utils.service';
@@ -12,7 +12,7 @@ import { map, Observable } from 'rxjs';
 export class noAuthGuard implements CanActivate {
   constructor(
     private firebaseSvc: FirebaseService,
-    private utilsSvc: UtilsService
+    @Inject (UtilsService) private utilsSvc: UtilsService
   ){
 
   }

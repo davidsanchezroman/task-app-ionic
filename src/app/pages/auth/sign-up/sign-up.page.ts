@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
@@ -23,7 +23,7 @@ export class SignUpPage implements OnInit {
 
   constructor(
     private firebaseSvc: FirebaseService,
-    private utilsSvc: UtilsService
+    @Inject(UtilsService) private utilsSvc: UtilsService
   ) { }
 
   ngOnInit() {
@@ -43,10 +43,10 @@ export class SignUpPage implements OnInit {
   submit(){
     if(this.form.valid){
       
-      console.log(this.form.value);
+      
       this.utilsSvc.presentLoading({ message: 'Registrando...' })
       this.firebaseSvc.signUp(this.form.value as User).then( async res => {
-        console.log(res);
+      
 
         await this.firebaseSvc.updateUser({ displayName: this.form.value.name })
 

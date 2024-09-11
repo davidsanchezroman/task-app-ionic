@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../models/user.model';
@@ -15,7 +15,7 @@ export class FirebaseService {
   constructor(
     private auth: AngularFireAuth,
     private db: AngularFirestore,
-    private utilsSvc: UtilsService
+    @Inject (UtilsService) private utilsSvc: UtilsService
   ) { }
 
   // AUTENTICACION
@@ -42,4 +42,12 @@ export class FirebaseService {
     this.utilsSvc.routerLink('/auth');
     localStorage.removeItem('user');
   }
+
+
+//Base de Datos Firebase
+
+getSubcollection(path: string, subcollectionName: string){
+  return this.db.doc(path).collection(subcollectionName).valueChanges({ idField: 'id'})
+}
+
 }

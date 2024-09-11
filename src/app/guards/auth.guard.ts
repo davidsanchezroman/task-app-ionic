@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { FirebaseService } from '../services/firebase.service';
 import { UtilsService } from '../services/utils.service';
@@ -11,7 +11,7 @@ import { map, Observable } from 'rxjs';
 export class AuthGuard implements CanActivate {
   constructor(
     private firebaseSvc: FirebaseService,
-    private utilsSvc: UtilsService
+    @Inject(UtilsService) private utilsSvc: UtilsService
   ){
 
   }
@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
         if (auth) {
         return true;
       }else {
-        this.utilsSvc.routerLink('/auth')
+        this.utilsSvc.routerLink('/auth');
         return false;
       }
       }))     

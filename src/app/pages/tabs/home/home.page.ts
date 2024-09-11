@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Task } from 'src/app/models/task.model'; 
+import { Component, Inject, OnInit } from '@angular/core';
+import { Task } from 'src/app/models/task.model';
+import { User } from 'src/app/models/user.model';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
+import { AddUpdateTaskComponent } from 'src/app/shared/components/add-update-task/add-update-task.component';
 
 @Component({
   selector: 'app-home',
@@ -8,45 +12,42 @@ import { Task } from 'src/app/models/task.model';
 })
 export class HomePage implements OnInit {
 
+  tasks: Task[] = [];
+  task: any;
 
-  tasks: Task[] = [
-    {
-      id: '1',
-      title: 'Ejemplo',
-      description: 'Este es un ejemplo de tarea',
-      items:[
-        {name: 'Ejemplo 1', completed: true},
-        {name: 'Ejemplo 2', completed: false},
-        {name: 'Ejemplo 3', completed: false},
-      ]
-    },
-    {
-      id: '2',
-      title: 'Ejemplo 2',
-      description: 'Este es otro ejemplo de tarea',
-      items:[
-        {name: 'Ejemplo 1', completed: true},
-        {name: 'Ejemplo 2', completed: false},
-        {name: 'Ejemplo 3', completed: false},
-      ]
-    },
-    {
-      id: '3',
-      title: 'Ejemplo 3',
-      description: 'Este es un tercer ejemplo de tarea',
-      items:[
-        {name: 'Ejemplo 1', completed: true},
-        {name: 'Ejemplo 2', completed: false},
-        {name: 'Ejemplo 3', completed: false},
-      ]
-    }
-
-  ]
-task: any;
-
-  constructor() { }
+  constructor(
+    private firebasSvc: FirebaseService,
+    private utilsSvc: UtilsService
+  ) { }
 
   ngOnInit() {
+    this.addOrUpdateTask(this.tasks[0]);
   }
 
+  ionViewWillEnter() {
+    this.getTasks();
+  }
+
+  getPercentage(task: Task) {
+    return this.utilsSvc.getPercentage(task);
+  }
+
+  addOrUpdateTask(task?: Task) {
+    this.utilsSvc.presentModal({
+      component: AddUpdateTaskComponent,
+      componentProps: { task },
+      cssClass: 'add-update-modal'
+    });
+  }
+
+  getTasks() {
+    let user: User = this.utilsSvc.getFromLocalStorage('user');
+    let path = `user/${user.uid}`;
+
+    this.firebasSvc.getSubcollection(path, 'tasks').subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    });
+  }
 }
